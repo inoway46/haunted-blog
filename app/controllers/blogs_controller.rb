@@ -10,8 +10,7 @@ class BlogsController < ApplicationController
   end
 
   def show
-    @blog = Blog.where(user_id: current_user&.id, id: params[:id]).or(Blog.where(secret: false, id: params[:id])).first
-    raise ActiveRecord::RecordNotFound if @blog.nil?
+    @blog = Blog.where(user: current_user).or(Blog.published).find(params[:id])
   end
 
   def new
